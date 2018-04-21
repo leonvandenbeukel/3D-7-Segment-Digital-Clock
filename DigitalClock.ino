@@ -25,8 +25,10 @@
  * https://github.com/leonvandenbeukel/3D-7-Segment-Digital-Clock
  * 
  * External libraries you need:
- * Adafruit RTCLib:   https://github.com/adafruit/RTClib
- * FastLED:           https://github.com/FastLED/FastLED
+ * Adafruit Sensor Library:   https://github.com/adafruit/Adafruit_Sensor
+ * Adafruit RTCLib:           https://github.com/adafruit/RTClib
+ * FastLED:                   https://github.com/FastLED/FastLED
+ * Timer Library:             https://github.com/JChristensen/Timer
  */
 
 #include <DHT.h>
