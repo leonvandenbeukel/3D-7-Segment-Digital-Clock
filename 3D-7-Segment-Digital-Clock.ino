@@ -235,7 +235,7 @@ void displayClock() {
   DateTime now = rtc.now();
 
   int h  = now.hour();
-  int hl = h / 10;
+  int hl = (h / 10) == 0 ? 13 : (h / 10);
   int hr = h % 10;
   int ml = now.minute() / 10;
   int mr = now.minute() % 10;
