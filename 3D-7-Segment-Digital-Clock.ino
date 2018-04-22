@@ -48,9 +48,10 @@ DHT dht(DHTPIN, DHTTYPE);
 CRGB LEDs[NUM_LEDS];
 
 SoftwareSerial BTserial(8, 9);
-CRGB colorCRGB = CRGB::White;         // Change this if you want another default color, for example CRGB::Red
-CHSV colorCHSV = CHSV(255, 255, 255);
-volatile int colorMODE = 0;           // 0=CRGB, 1=CHSV, 2=Constant Color Changing pattern
+CRGB colorCRGB = CRGB::Red;           // Change this if you want another default color, for example CRGB::Blue
+CHSV colorCHSV = CHSV(95, 255, 255);  // Green
+CRGB colorOFF  = CRGB(20,20,20);      // Color of the segments that are 'disabled'. You can also set it to CRGB::Black
+volatile int colorMODE = 1;           // 0=CRGB, 1=CHSV, 2=Constant Color Changing pattern
 RTC_DS3231 rtc;
 Timer t1;
 Timer t2;
@@ -338,7 +339,7 @@ void displaySegments(int startindex, int number) {
   };
 
   for (int i = 0; i < 7; i++) {
-    LEDs[i + startindex] = ((numbers[number] & 1 << i) == 1 << i) ? (colorMODE == 0 ? colorCRGB : colorCHSV) : CRGB::Black;
+    LEDs[i + startindex] = ((numbers[number] & 1 << i) == 1 << i) ? (colorMODE == 0 ? colorCRGB : colorCHSV) : colorOFF;
   } 
 }
 
