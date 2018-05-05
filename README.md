@@ -5,4 +5,17 @@ This is the source and schema for another homemade digital clock I've made. Here
 Keep in mind that it takes a long time to print all the parts and in daylight it's not very bright.
 You can download the Android app from the Play Story here: https://play.google.com/store/apps/details?id=nl.leonvandenbeukel.BTDigitalClockApp
 
+### Print instructions
+
+To create a better contrast, it's best to print the following parts in black:
+
+* Betweenblock
+* BewteenSegments
+* DotRing
+* Dotbottom
+* Middle
+* OuterRingSegments
+
+The rest can be printed in white.
+
 ![alt text](https://github.com/leonvandenbeukel/3D-7-Segment-Digital-Clock/blob/master/Schema.png)
