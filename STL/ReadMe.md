@@ -1,6 +1,6 @@
 ### Print instructions
 
-To create a better contrast, it's best to print the following parts in black:
+For better contrast, it's best to print the following parts in black:
 
 * Betweenblock
 * BewteenSegments
