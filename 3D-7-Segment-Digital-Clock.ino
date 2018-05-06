@@ -62,6 +62,7 @@ volatile int scoreLeft = 0;
 volatile int scoreRight = 0;
 volatile long timerValue = 0;
 volatile int timerRunning = 0;
+int blinkDots = 0;                    // Set this to 1 if you want the dots to blink in clock mode, set it to value 0 to disable
 
 void setup () {
 
@@ -155,25 +156,22 @@ void refreshDisplay() {
 
 void refreshTimer() {
 
-  if (mode == 4) {
-    if (timerRunning == 1) {
-      if (timerValue >= 6000)
-        return; 
+  if (mode == 0 && blinkDots == 1) {    
+    displayDots(3);
+  } else if (mode == 4 && timerRunning == 1 && timerValue < 6000) {
+    timerValue++;
 
-      timerValue++;
-
-      int m1 = (timerValue / 60) / 10 ;
-      int m2 = (timerValue / 60) % 10 ;
-      int s1 = (timerValue % 60) / 10;
-      int s2 = (timerValue % 60) % 10;
-    
-      displaySegments(0, s2); 
-      displaySegments(7, s1);
-      displaySegments(16, m2);    
-      displaySegments(23, m1);  
-      displayDots(0);  
-      FastLED.show();
-    }
+    int m1 = (timerValue / 60) / 10 ;
+    int m2 = (timerValue / 60) % 10 ;
+    int s1 = (timerValue % 60) / 10;
+    int s2 = (timerValue % 60) % 10;
+  
+    displaySegments(0, s2); 
+    displaySegments(7, s1);
+    displaySegments(16, m2);    
+    displaySegments(23, m1);  
+    displayDots(0);  
+    FastLED.show();
   }
 }
 
@@ -300,19 +298,24 @@ void displayScoreboard() {
 }
 
 void displayDots(int dotMode) {
-  // dotMode: 0=Both on, 1=Both Off, 2=Bottom On
+  // dotMode: 0=Both on, 1=Both Off, 2=Bottom On, 3=Blink
   switch (dotMode) {
     case 0:
       LEDs[14] = colorMODE == 0 ? colorCRGB : colorCHSV;
       LEDs[15] = colorMODE == 0 ? colorCRGB : colorCHSV; 
       break;
     case 1:
-      LEDs[14] = CRGB::Black;
-      LEDs[15] = CRGB::Black; 
+      LEDs[14] = colorOFF;
+      LEDs[15] = colorOFF; 
       break;
     case 2:
-      LEDs[14] = CRGB::Black;
+      LEDs[14] = colorOFF;
       LEDs[15] = colorMODE == 0 ? colorCRGB : colorCHSV; 
+      break;
+    case 3:
+      LEDs[14] = (LEDs[14] == colorOFF) ? (colorMODE == 0 ? colorCRGB : colorCHSV) : colorOFF;
+      LEDs[15] = (LEDs[15] == colorOFF) ? (colorMODE == 0 ? colorCRGB : colorCHSV) : colorOFF;
+      FastLED.show();  
       break;
     default:
       break;    
