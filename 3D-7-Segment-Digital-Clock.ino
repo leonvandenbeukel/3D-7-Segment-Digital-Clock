@@ -114,8 +114,8 @@ void loop () {
 
     if (received == '|')
     {
-        Serial.print("Command received: ");
-        Serial.println(btBuffer);        
+        // Serial.print("Command received: ");
+        // Serial.println(btBuffer);        
         processCommand();
         btBuffer = "";
     }
@@ -238,7 +238,6 @@ void displayClock() {
   DateTime now = rtc.now();
 
   int h  = now.hour();
-
   if (hourFormat == 12 && h > 12)
     h = h - 12;
   
@@ -256,7 +255,7 @@ void displayClock() {
 }
 
 void displayTemperature() {
-  Serial.println("Updating temperature measurement...");  
+  // Serial.println("Updating temperature measurement...");  
   float tmp = dht.readTemperature(temperatureMode == 'F' ? true : false);
 
   if (isnan(tmp)) {
@@ -274,7 +273,7 @@ void displayTemperature() {
 }
 
 void displayHumidity() {
-  Serial.println("Updating humidity measurement...");  
+  // Serial.println("Updating humidity measurement...");  
   float hum = dht.readHumidity();
 
   if (isnan(hum)) {
@@ -292,7 +291,7 @@ void displayHumidity() {
 }
 
 void displayScoreboard() {
-  Serial.println("Setting scoreboard...");
+  // Serial.println("Setting scoreboard...");
   int s1 = scoreLeft % 10;
   int s2 = scoreLeft / 10;
   int s3 = scoreRight % 10;
