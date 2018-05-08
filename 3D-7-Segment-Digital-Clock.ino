@@ -48,21 +48,25 @@ DHT dht(DHTPIN, DHTTYPE);
 CRGB LEDs[NUM_LEDS];
 
 SoftwareSerial BTserial(8, 9);
-CRGB colorCRGB = CRGB::Red;           // Change this if you want another default color, for example CRGB::Blue
-CHSV colorCHSV = CHSV(95, 255, 255);  // Green
-CRGB colorOFF  = CRGB(20,20,20);      // Color of the segments that are 'disabled'. You can also set it to CRGB::Black
-volatile int colorMODE = 1;           // 0=CRGB, 1=CHSV, 2=Constant Color Changing pattern
 RTC_DS3231 rtc;
 Timer t1;
 Timer t2;
 Timer t3;
+
 String btBuffer;
+CRGB colorCRGB = CRGB::Red;           // Change this if you want another default color, for example CRGB::Blue
+CHSV colorCHSV = CHSV(95, 255, 255);  // Green
+CRGB colorOFF  = CRGB(20,20,20);      // Color of the segments that are 'disabled'. You can also set it to CRGB::Black
+volatile int colorMODE = 1;           // 0=CRGB, 1=CHSV, 2=Constant Color Changing pattern
 volatile int mode = 0;                // 0=Clock, 1=Temperature, 2=Humidity, 3=Scoreboard, 4=Time counter
 volatile int scoreLeft = 0;
 volatile int scoreRight = 0;
 volatile long timerValue = 0;
 volatile int timerRunning = 0;
-int blinkDots = 0;                    // Set this to 1 if you want the dots to blink in clock mode, set it to value 0 to disable
+
+#define blinkDots   0                 // Set this to 1 if you want the dots to blink in clock mode, set it to value 0 to disable
+#define hourFormat  24                // Set this to 12 or to 24 hour format
+#define temperatureMode 'C'           // Set this to 'C' for Celcius or 'F' for Fahrenheit
 
 void setup () {
 
@@ -234,6 +238,10 @@ void displayClock() {
   DateTime now = rtc.now();
 
   int h  = now.hour();
+
+  if (hourFormat == 12 && h > 12)
+    h = h - 12;
+  
   int hl = (h / 10) == 0 ? 13 : (h / 10);
   int hr = h % 10;
   int ml = now.minute() / 10;
@@ -249,7 +257,7 @@ void displayClock() {
 
 void displayTemperature() {
   Serial.println("Updating temperature measurement...");  
-  float tmp = dht.readTemperature();
+  float tmp = dht.readTemperature(temperatureMode == 'F' ? true : false);
 
   if (isnan(tmp)) {
     Serial.println("Failed to read from DHT sensor!");
@@ -259,7 +267,7 @@ void displayTemperature() {
     displaySegments(23, tmp1);    
     displaySegments(16, tmp2);
     displaySegments(7,  10);    
-    displaySegments(0,  11);
+    displaySegments(0, (temperatureMode == 'F' ? 14 : 11));
     displayDots(1);  
     FastLED.show();    
   }  
@@ -335,10 +343,11 @@ void displaySegments(int startindex, int number) {
     0b00000111, // 7
     0b01111111, // 8
     0b01101111, // 9   
-    0b01100011, // º          10
-    0b00111001, // C          11
-    0b01011100, // º lower    12
-    0b00000000, // Empty      13
+    0b01100011, // º              10
+    0b00111001, // C(elcius)      11
+    0b01011100, // º lower        12
+    0b00000000, // Empty          13
+    0b01110001, // F(ahrenheit)   14
   };
 
   for (int i = 0; i < 7; i++) {
