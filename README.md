@@ -19,3 +19,15 @@ For better contrast, it's best to print the following parts in black:
 The rest can be printed in white.
 
 ![alt text](https://github.com/leonvandenbeukel/3D-7-Segment-Digital-Clock/blob/master/Schema.png)
+
+| Components                              			    |
+| -------------                          			      |
+| Arduino Nano                           			      |
+| LED strip WS2812B 1 meter 30 RGB LED's		 	      |
+| Real time clock: DS3231 and battery          		  |
+| Bluetooth module: HC-05                 			    |
+| Temperature and Humidity Sensor: DHT11 or DHT22  	|
+| 5V / 2A  Power Supply								              |
+| PCB                                    			      |
+| Wires, Glue and a lot of patience :)    			    |
+
